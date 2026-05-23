@@ -1,8 +1,8 @@
 import type * as Monaco from 'monaco-editor'
 import { builtinThemeColors } from './builtinThemeColors'
-import oneDarkTheme from './themeData/OneDark.json'
 import gruvboxTheme from './themeData/Gruvbox.json'
 import gruvboxLightTheme from './themeData/GruvboxLight.json'
+import oneDarkTheme from './themeData/OneDark.json'
 
 export type BuiltinThemeId = 'vs-dark' | 'vs-light' | 'hc-black' | 'hc-light'
 

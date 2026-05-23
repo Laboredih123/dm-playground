@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { useEffect, useState } from 'react'
 
 type DraftNumberInputOptions = {
   value: number

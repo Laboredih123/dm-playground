@@ -1,20 +1,20 @@
-import { emulatorService } from './EmulatorService'
+import {
+  buildProjectExecutionFiles,
+  type PlaygroundProject,
+} from '../app/editorProject/projectState'
+import useLocalSettings from '../app/settings/localSettings'
+import {
+  type OutputSegment,
+  parseCompilerErrorLine,
+} from '../utils/compilerOutputParser'
+import { byondService } from './ByondService'
 import {
   commandQueueService,
   type Process,
   type ProcessExit,
 } from './CommandQueueService'
-import {
-  buildProjectExecutionFiles,
-  type PlaygroundProject,
-} from '../app/editorProject/projectState'
-import { byondService } from './ByondService'
-import useLocalSettings from '../app/settings/localSettings'
+import { emulatorService } from './EmulatorService'
 import { ensureRuntime } from './runtimeBootstrap'
-import {
-  parseCompilerErrorLine,
-  type OutputSegment,
-} from '../utils/compilerOutputParser'
 
 export type ExecutorEventType = 'reset' | 'output' | 'status'
 const DREAM_DAEMON_STARTUP_BANNER_LINES = 3
@@ -199,7 +199,7 @@ export class ExecutorService {
                 const warnItems: OutputSegment[] = []
 
                 for (const line of lines) {
-                  if (!line || !line.trim()) continue
+                  if (!line?.trim()) continue
 
                   const parsed = parseCompilerErrorLine(line)
                   if (!parsed) continue
@@ -262,7 +262,7 @@ export class ExecutorService {
               const items: OutputSegment[] = []
 
               for (const line of lines) {
-                if (!line || !line.trim()) continue
+                if (!line?.trim()) continue
 
                 const parsed = parseCompilerErrorLine(line)
                 if (!parsed) continue

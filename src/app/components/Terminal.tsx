@@ -1,6 +1,6 @@
-import { useEffect, useEffectEvent, useRef } from 'react'
-import { Terminal as XTerm } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
+import { Terminal as XTerm } from '@xterm/xterm'
+import { useEffect, useEffectEvent, useRef } from 'react'
 import '@xterm/xterm/css/xterm.css'
 
 export interface TerminalApi {

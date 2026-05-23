@@ -1,7 +1,7 @@
 import {
-  getThemeColors,
-  editorThemeOptions,
   type EditorThemeId,
+  editorThemeOptions,
+  getThemeColors,
 } from '../monaco/themes'
 
 export function useApplyThemeVariables() {

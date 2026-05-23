@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { executorService } from '../../services/ExecutorService'
 import {
   ByondEvent,
   ByondStatus,
   byondService,
 } from '../../services/ByondService'
+import { executorService } from '../../services/ExecutorService'
 import { ensureRuntime } from '../../services/runtimeBootstrap'
 
 export function useRuntimeBootstrap() {
@@ -100,7 +100,7 @@ export function useRuntimeBootstrap() {
       if (shuffled.length === 0) {
         shuffled = loadingMessages.slice().sort(() => Math.random() - 0.5)
       }
-      executorService.appendOutput(shuffled.shift() + '\n')
+      executorService.appendOutput(`${shuffled.shift()}\n`)
     }
 
     const promise = (async () => {

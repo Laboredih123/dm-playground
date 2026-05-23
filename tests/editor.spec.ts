@@ -15,7 +15,9 @@ test('full mode advanced editor tabs are hidden by default', async ({
   await expect(page.getByRole('button', { name: 'boot.dm' })).toBeVisible()
 })
 
-test('editor paste expands tabs to the configured tab size', async ({ page }) => {
+test('editor paste expands tabs to the configured tab size', async ({
+  page,
+}) => {
   await page.goto('/')
   await expect(page.locator('.monaco-editor').first()).toBeVisible()
 
@@ -42,7 +44,13 @@ test('editor paste expands tabs to the configured tab size', async ({ page }) =>
   }, pastedText)
 
   const editorValue = await page.evaluate(() => {
-    const monaco = (window as { monaco?: { editor?: { getModels: () => Array<{ getValue: () => string }> } } }).monaco
+    const monaco = (
+      window as {
+        monaco?: {
+          editor?: { getModels: () => Array<{ getValue: () => string }> }
+        }
+      }
+    ).monaco
     const model = monaco?.editor?.getModels()?.[0]
     if (!model) {
       throw new Error('Monaco model not found')

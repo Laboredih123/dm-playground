@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import useExecutorStore from '../stores/executorStore'
-import type { ExecutorState } from '../stores/executorStore'
 import { executorService } from '../../services/ExecutorService'
-import { useFontFamilySetting } from '../settings/localSettings'
-import { ByondPanel } from './ByondPanel'
 import { ProgressBar } from '../components/ProgressBar'
+import { useFontFamilySetting } from '../settings/localSettings'
+import type { ExecutorState } from '../stores/executorStore'
+import useExecutorStore from '../stores/executorStore'
+import { ByondPanel } from './ByondPanel'
 import type { PanelHeaderProps, PanelRenderProps } from './PanelRegistry'
 import { useOutputPanelProgress } from './useOutputPanelProgress'
 
@@ -87,7 +87,7 @@ export function OutputPanel({
     if (outputRef.current) {
       outputRef.current.scrollTop = outputRef.current.scrollHeight
     }
-  }, [output])
+  }, [])
 
   useEffect(() => {
     if (!registerHeaderState) {
@@ -124,6 +124,7 @@ export function OutputPanel({
             if (item.color) style.color = item.color
             if (item.bold) style.fontWeight = 600
             return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: output items have no stable id
               <span key={i} style={style}>
                 {item.text}
               </span>

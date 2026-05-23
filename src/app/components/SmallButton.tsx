@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import type { ButtonHTMLAttributes } from 'react'
+import { forwardRef } from 'react'
 
 interface SmallButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'muted' | 'primary' | 'danger'

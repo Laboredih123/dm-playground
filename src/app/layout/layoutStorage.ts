@@ -1,14 +1,14 @@
-import { CompressionService } from '../../services/CompressionService'
+import { decode as compressionDecode, encode as compressionEncode } from '../../services/CompressionService'
 import {
-  LayoutMode,
+  defaultLayouts,
   type LayoutBranch,
   type LayoutLeaf,
+  LayoutMode,
   type LayoutRoot,
-  type PanelId,
-  defaultLayouts,
   layoutPanelIds,
-  persistedLayoutModes,
+  type PanelId,
   type PersistedLayoutMode,
+  persistedLayoutModes,
 } from './layoutTypes'
 
 const LAYOUT_STORAGE_KEY = 'layout'
@@ -174,7 +174,7 @@ export async function saveLayouts(layouts: StoredLayouts): Promise<void> {
     ),
   }
 
-  const compressed = await CompressionService.encode({
+  const compressed = await compressionEncode({
     version: STORAGE_VERSION,
     layouts: normalizedLayouts,
   } satisfies LayoutStoragePayload)
@@ -190,7 +190,7 @@ export async function loadLayouts(): Promise<StoredLayouts> {
   }
 
   try {
-    const parsed = await CompressionService.decode<unknown>(stored)
+    const parsed = await compressionDecode<unknown>(stored)
     const layouts = normalizeLayouts(parsed)
     await saveLayouts(layouts)
     return layouts

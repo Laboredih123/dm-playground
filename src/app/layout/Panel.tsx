@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import { LayoutMode, PanelId } from './layoutTypes'
-import { PanelRegistry, type PanelHeaderState } from '../panels/PanelRegistry'
+import { type PanelHeaderState, PanelRegistry } from '../panels/PanelRegistry'
+import { LayoutMode, type PanelId } from './layoutTypes'
 import { useResolvedLayoutMode } from './useResolvedLayoutMode'
 
 interface PanelProps {

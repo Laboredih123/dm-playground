@@ -202,7 +202,7 @@ export class CommandQueueService {
       env,
     })
     if (result.status === 'ERR')
-      throw Error('Failed to create process: ' + result.error)
+      throw Error(`Failed to create process: ${result.error}`)
 
     const tracked = this.trackedProcesses.get(result.result)
     if (!tracked) throw Error('Process was created but not tracked')
@@ -353,20 +353,20 @@ export class CommandQueueService {
             case 'pidexit': {
               return {
                 event: 'pidexit',
-                pid: parseInt(pollComponents[0]),
-                exit: parseInt(pollComponents[1]),
+                pid: parseInt(pollComponents[0], 10),
+                exit: parseInt(pollComponents[1], 10),
               } as ExitPollEvent
             }
             case 'stderr':
             case 'stdout': {
               return {
                 event: type,
-                pid: parseInt(pollComponents[0]),
+                pid: parseInt(pollComponents[0], 10),
                 data: atob(pollComponents[1]),
               } as StdoutPollEvent | StderrPollEvent
             }
             default: {
-              throw Error('Unknown event type: ' + type)
+              throw Error(`Unknown event type: ${type}`)
             }
           }
         }) as PollEvent[]
@@ -402,7 +402,7 @@ export class CommandQueueService {
         break
       }
       case 'run': {
-        const pid = parseInt(components[0] ?? '')
+        const pid = parseInt(components[0] ?? '', 10)
         if (Number.isNaN(pid)) {
           throw new Error('Failed to parse pid from controller response')
         }
@@ -434,8 +434,8 @@ export class CommandQueueService {
   private updateBusy() {
     const value = Boolean(
       this.activeCommand ||
-      this.queue.length > 0 ||
-      this.trackedProcesses.size > 0
+        this.queue.length > 0 ||
+        this.trackedProcesses.size > 0
     )
     if (this.isBusy === value) {
       return

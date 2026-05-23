@@ -1,31 +1,31 @@
 import MonacoEditor, { type OnMount } from '@monaco-editor/react'
 import type * as Monaco from 'monaco-editor'
-import { useEffect, useMemo, useRef } from 'react'
 import type { MouseEvent } from 'react'
-import { MobileEditorClipboardButtons } from './MobileEditorClipboardButtons'
-import { SmallInput } from './SmallInput'
-import { SmallButton } from './SmallButton'
-import { embedParams, buildShareUrl } from '../embed/embedParams'
-import { createDefaultProject } from '../editorProject/projectState'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import type { EditableProjectFileName } from '../editorProject/projectState'
-import { dmCompletionKeywords, ensureDmLanguage } from '../monaco/dmLanguage'
-import { ensureMonacoTheme, type EditorThemeId } from '../monaco/themes'
-import { useMobileEditorClipboardActions } from '../hooks/useMobileEditorClipboardActions'
+import { createDefaultProject } from '../editorProject/projectState'
+import { buildShareUrl, embedParams } from '../embed/embedParams'
+import { useApplyThemeVariables } from '../hooks/useApplyThemeVariables'
 import { useDraftNumberInput } from '../hooks/useDraftNumberInput'
+import { useMobileEditorClipboardActions } from '../hooks/useMobileEditorClipboardActions'
+import { dmCompletionKeywords, ensureDmLanguage } from '../monaco/dmLanguage'
+import { normalizePastedText } from '../monaco/pasteText'
+import { type EditorThemeId, ensureMonacoTheme } from '../monaco/themes'
+import { installTouchScrollHandoff } from '../monaco/touchScrollHandoff'
 import {
   detectTouchInput,
   installTouchSelectionHandler,
   syncTouchSelectionMode,
 } from '../monaco/touchSelection'
-import { installTouchScrollHandoff } from '../monaco/touchScrollHandoff'
-import { normalizePastedText } from '../monaco/pasteText'
-import { useApplyThemeVariables } from '../hooks/useApplyThemeVariables'
-import useUIStore from '../stores/uiStore'
 import {
   useFontFamilySetting,
   useFontSizeSetting,
   useTabSizeSetting,
 } from '../settings/localSettings'
+import useUIStore from '../stores/uiStore'
+import { MobileEditorClipboardButtons } from './MobileEditorClipboardButtons'
+import { SmallButton } from './SmallButton'
+import { SmallInput } from './SmallInput'
 
 interface EditorFileTab {
   id: EditableProjectFileName
@@ -142,7 +142,7 @@ export function Editor({
     }
   }
 
-  const installPasteNormalization = (
+  const installPasteNormalization = useCallback((
     editor: Monaco.editor.IStandaloneCodeEditor,
     currentTabSize: number
   ) => {
@@ -174,7 +174,7 @@ export function Editor({
     return () => {
       pasteListener.dispose()
     }
-  }
+  }, [])
 
   const handleMount: OnMount = async (editor, monaco) => {
     monacoRef.current = monaco as typeof Monaco
@@ -212,8 +212,9 @@ export function Editor({
     })
 
     if (import.meta.env.DEV) {
-      const { installHighlightingTestBridge } =
-        await import('../monaco/highlightingTestBridge')
+      const { installHighlightingTestBridge } = await import(
+        '../monaco/highlightingTestBridge'
+      )
       installHighlightingTestBridge(monaco as typeof Monaco)
     }
 
@@ -273,7 +274,7 @@ export function Editor({
       pasteCleanupRef.current?.()
       pasteCleanupRef.current = null
     }
-  }, [tabSize])
+  }, [tabSize, installPasteNormalization])
 
   useEffect(() => {
     const editor = editorRef.current
@@ -295,14 +296,7 @@ export function Editor({
       tabSize,
       indentSize: tabSize,
     })
-  }, [
-    activeFileId,
-    tabSize,
-    fontSize,
-    fontFamily,
-    bindEditor,
-    touchSelectionEnabled,
-  ])
+  }, [tabSize, fontSize, fontFamily, bindEditor, touchSelectionEnabled])
 
   useEffect(() => {
     return () => {

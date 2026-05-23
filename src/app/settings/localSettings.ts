@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { EditorThemeId } from '../monaco/themes'
 import { LayoutMode } from '../layout/layoutTypes'
+import type { EditorThemeId } from '../monaco/themes'
 
 type EditorSettings = {
   fontFamily: string

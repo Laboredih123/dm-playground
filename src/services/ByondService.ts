@@ -1,5 +1,5 @@
-import { commandQueueService } from './CommandQueueService'
 import { byondArchiveStorage } from './ByondArchiveStorage'
+import { commandQueueService } from './CommandQueueService'
 import { emulatorService } from './EmulatorService'
 import { ensurePersistentStorage } from './storagePersistence'
 

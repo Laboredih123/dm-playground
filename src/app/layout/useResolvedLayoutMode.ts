@@ -1,5 +1,5 @@
-import { useLayoutModeSetting } from '../settings/localSettings'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { useLayoutModeSetting } from '../settings/localSettings'
 import { resolveLayoutMode } from './layoutTypes'
 
 export function useResolvedLayoutMode() {

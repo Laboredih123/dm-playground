@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { Editor } from '../components/Editor'
 import { executorService } from '../../services/ExecutorService'
-import { useThemeSetting } from '../settings/localSettings'
+import { Editor } from '../components/Editor'
+import type { EditableProjectFileName } from '../editorProject/projectState'
 import { embedParams } from '../embed/embedParams'
-import useExecutorStore from '../stores/executorStore'
-import type { ExecutorState } from '../stores/executorStore'
 import { useRuntimeBootstrap } from '../hooks/useRuntimeBootstrap'
-import { type EditableProjectFileName } from '../editorProject/projectState'
-import { useShowAdvancedEditorTabsSetting } from '../settings/localSettings'
+import {
+  useShowAdvancedEditorTabsSetting,
+  useThemeSetting,
+} from '../settings/localSettings'
+import type { ExecutorState } from '../stores/executorStore'
+import useExecutorStore from '../stores/executorStore'
 import useProjectStore, {
   useResolvedActiveFile,
   useVisibleFiles,

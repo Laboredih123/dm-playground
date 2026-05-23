@@ -1,16 +1,16 @@
 import { create } from 'zustand'
 import { embedParams } from '../embed/embedParams'
 import {
+  loadLayouts,
+  type StoredLayouts,
+  saveLayouts,
+} from '../layout/layoutStorage'
+import {
+  embedLayout,
   LayoutMode,
   type LayoutRoot,
-  embedLayout,
   type PersistedLayoutMode,
 } from '../layout/layoutTypes'
-import {
-  loadLayouts,
-  saveLayouts,
-  type StoredLayouts,
-} from '../layout/layoutStorage'
 import { updateBranchSizes as updateLayoutBranchSizes } from '../layout/layoutUtils'
 
 type LayoutStore = {

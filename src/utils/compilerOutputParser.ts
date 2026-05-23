@@ -32,7 +32,8 @@ export function parseCompilerOutput(text: string): OutputSegment[] {
     TOKEN_RE.lastIndex = 0
     let last = 0
     let m: RegExpExecArray | null
-    while ((m = TOKEN_RE.exec(line)) !== null) {
+    m = TOKEN_RE.exec(line)
+    while (m !== null) {
       const idx = m.index
       if (idx > last) out.push({ text: line.slice(last, idx) })
       const tok = m[0]
@@ -47,6 +48,7 @@ export function parseCompilerOutput(text: string): OutputSegment[] {
             : undefined,
       })
       last = idx + tok.length
+      m = TOKEN_RE.exec(line)
     }
     if (last < line.length) out.push({ text: line.slice(last) })
   }

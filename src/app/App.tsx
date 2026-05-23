@@ -1,27 +1,27 @@
-import { useState, useEffect, useRef } from 'react'
-import { PanelTree } from './layout/PanelTree'
-import { ConsolePanel } from './panels/ConsolePanel'
-import { LayoutProvider } from './layout/LayoutProvider'
+import { useEffect, useRef, useState } from 'react'
+import { byondService } from '../services/ByondService'
+import { clearOfflineCaches } from '../services/offlineServiceWorker'
+import { clearRuntimeAssetCaches } from '../services/runtimeAssetCache'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { SmallButton } from './components/SmallButton'
-import { editorThemeOptions, type EditorThemeId } from './monaco/themes'
+import { buildShareUrl, embedParams } from './embed/embedParams'
+import { LayoutProvider } from './layout/LayoutProvider'
+import { LayoutMode, type LayoutRoot } from './layout/layoutTypes'
+import { PanelTree } from './layout/PanelTree'
+import { useLayoutManager } from './layout/useLayoutManager'
+import { type EditorThemeId, editorThemeOptions } from './monaco/themes'
+import { ConsolePanel } from './panels/ConsolePanel'
 import {
-  useLayoutModeSetting,
-  useThemeSetting,
   useFontFamilySetting,
   useFontSizeSetting,
-  useTabSizeSetting,
+  useLayoutModeSetting,
   useShowAdvancedEditorTabsSetting,
-  useStreamCompilerSetting,
   useShowConsoleSetting,
+  useStreamCompilerSetting,
+  useTabSizeSetting,
+  useThemeSetting,
 } from './settings/localSettings'
-import { useLayoutManager } from './layout/useLayoutManager'
-import { embedParams, buildShareUrl } from './embed/embedParams'
 import useProjectStore from './stores/projectStore'
-import { LayoutMode, type LayoutRoot } from './layout/layoutTypes'
-import { byondService } from '../services/ByondService'
-import { clearRuntimeAssetCaches } from '../services/runtimeAssetCache'
-import { clearOfflineCaches } from '../services/offlineServiceWorker'
 
 function PlaygroundLayout({
   layout,

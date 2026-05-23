@@ -1,8 +1,8 @@
 import { create, type StateCreator } from 'zustand'
 import { executorService } from '../../services/ExecutorService'
 import {
-  parseCompilerOutput,
   type OutputSegment,
+  parseCompilerOutput,
 } from '../../utils/compilerOutputParser'
 
 export type ExecutorState = {

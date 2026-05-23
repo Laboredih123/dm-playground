@@ -40,16 +40,16 @@ You can use the `Share Code` button in the playground, or use the following scri
 
 ```bash
 # From a file
-npm run share:encode -- ./main.dm
-npm run share:encode:json -- ./payload.json
+pnpm run share:encode -- ./main.dm
+pnpm run share:encode:json -- ./payload.json
 
 # From stdin (bash)
-cat payload.json | npm run share:encode:json
+cat payload.json | pnpm run share:encode:json
 
 # From stdin (PowerShell)
-Get-Content .\payload.json -Raw | npm run share:encode:json
+Get-Content .\payload.json -Raw | pnpm run share:encode:json
 
-npm run share:decode -- "<share-b64>"
+pnpm run share:decode -- "<share-b64>"
 ```
 
 If you omit the argument, the script reads from stdin when piped or prompts interactively otherwise.
@@ -76,22 +76,22 @@ If you change the emulator runtime files or BIOS/runtime URLs, bump the cache ve
 ### Build the UI
 
 ```bash
-npm install
-npm run dev # Starts development server with hot reload
+pnpm install
+pnpm run dev # Starts development server with hot reload
 ```
 
 ### Build for production
 
 ```bash
-npm run build   # Type-check and build
-npm run preview # Preview production build
+pnpm run build   # Type-check and build
+pnpm run preview # Preview production build
 ```
 
 ### Code quality
 
 ```bash
-npm run lint   # Run ESLint
-npm run format # Format code with Prettier
+npm run lint   # Lint with Biome
+npm run format # Format with Biome
 npm run test   # Run playwright tests
 ```
 

@@ -1,7 +1,7 @@
-import { createInterface } from 'node:readline/promises'
 import { access, readFile } from 'node:fs/promises'
-import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
 import { stdin as input, stdout as output } from 'node:process'
+import { createInterface } from 'node:readline/promises'
+import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
 
 const SHARE_VERSION = 1
 

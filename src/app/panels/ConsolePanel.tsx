@@ -1,14 +1,14 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import type { TerminalApi } from '../components/Terminal'
-import { emulatorService } from '../../services/EmulatorService'
 import { commandQueueService } from '../../services/CommandQueueService'
+import { emulatorService } from '../../services/EmulatorService'
 import { green, red } from '../../utils/terminalColors'
 import { LoadingSpinner } from '../components/LoadingSpinner'
-import { decodeController, decodeSent } from './console/controllerCodec'
-import { useSplitResize } from './console/useSplitResize'
+import type { TerminalApi } from '../components/Terminal'
 import { LayoutMode } from '../layout/layoutTypes'
 import { useResolvedLayoutMode } from '../layout/useResolvedLayoutMode'
+import { decodeController, decodeSent } from './console/controllerCodec'
+import { useSplitResize } from './console/useSplitResize'
 
 const LazyTerminal = lazy(async () => {
   const module = await import('../components/Terminal')
@@ -110,7 +110,7 @@ export function ConsolePanel() {
     setDragging(true)
     e.preventDefault()
   }
-  const dragEnd = () => setDragging(false)
+  const dragEnd = useCallback(() => setDragging(false), [])
   useEffect(() => {
     const dragMove = (e: MouseEvent) => {
       if (!dragging) return
@@ -130,7 +130,7 @@ export function ConsolePanel() {
       window.removeEventListener('mousemove', dragMove)
       window.removeEventListener('mouseup', dragEnd)
     }
-  }, [dragging])
+  }, [dragging, dragEnd])
 
   const panelContent = (
     <div

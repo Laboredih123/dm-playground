@@ -1,11 +1,11 @@
-import { CompressionService } from '../../services/CompressionService'
+import { decode as compressionDecode, encode as compressionEncode } from '../../services/CompressionService'
 import {
   createProjectFromMainCode,
   deserializeProject,
-  serializeProject,
   type PlaygroundProject,
+  serializeProject,
 } from '../editorProject/projectState'
-import { isEditorThemeId, type EditorThemeId } from '../monaco/themes'
+import { type EditorThemeId, isEditorThemeId } from '../monaco/themes'
 
 const searchParams = new URLSearchParams(window.location.search)
 
@@ -29,7 +29,7 @@ const resolveProject = (): PlaygroundProject | null => {
   // Hash is a compressed share string.
   if (hash) {
     try {
-      const decoded = CompressionService.decode<unknown>(hash)
+      const decoded = compressionDecode<unknown>(hash)
       return (
         deserializeProject(decoded) ||
         (typeof decoded === 'string'
@@ -76,6 +76,6 @@ export function buildShareUrl(project: PlaygroundProject) {
   // For simple single-file projects, encode just the main code string.
   // For projects with a custom bootstrap, encode the full project.
   const payload = serialized.f.boot ? serialized : serialized.f.main
-  url.hash = CompressionService.encode(payload, true)
+  url.hash = compressionEncode(payload, true)
   return url.toString()
 }

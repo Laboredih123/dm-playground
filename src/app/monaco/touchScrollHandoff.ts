@@ -162,7 +162,7 @@ export function installTouchScrollHandoff(
     )
 
     const consumed = scrollElementBy(lastHandoffTarget, deltaY)
-    momentumVelocity *= Math.pow(MOMENTUM_FRICTION_PER_FRAME, frameScale)
+    momentumVelocity *= MOMENTUM_FRICTION_PER_FRAME ** frameScale
 
     if (
       Math.abs(consumed) < SCROLL_EDGE_EPSILON_PX ||

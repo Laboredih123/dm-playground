@@ -1,6 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
-import { ByondEvent, ByondStatus } from '../../services/ByondService'
-import { byondService } from '../../services/ByondService'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  ByondEvent,
+  ByondStatus,
+  byondService,
+} from '../../services/ByondService'
 import { ProgressBar } from '../components/ProgressBar'
 import { SmallButton } from '../components/SmallButton'
 
@@ -81,7 +84,7 @@ export function ByondPanel() {
     versionStatus === ByondStatus.Loading ||
     versionStatus === ByondStatus.Installed
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     try {
       const [latestVersion, localVersions] = await Promise.all([
         byondService.getLatestVersion(),
@@ -120,7 +123,7 @@ export function ByondPanel() {
           : 'Failed to load versions'
       )
     }
-  }
+  }, [])
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -134,7 +137,7 @@ export function ByondPanel() {
       clearTimeout(id)
       window.removeEventListener('byond:refresh', handleRefresh)
     }
-  }, [])
+  }, [refresh])
 
   useEffect(() => {
     const handleActive = (event: Event) => {

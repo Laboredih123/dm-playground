@@ -2,8 +2,8 @@
 import V86 from 'v86'
 import v86WasmUrl from 'v86/build/v86.wasm?url'
 import {
-  fetchBinary,
   type AssetDownloadProgressMessage,
+  fetchBinary,
 } from './runtimeAssetDownload'
 
 type EmulatorPort = 'console' | 'screen' | 'controller'
@@ -76,12 +76,12 @@ const initEmulator = async () => {
   post({
     type: 'receivedOutput',
     port: 'console',
-    data: `Loaded bzImage (${bzImageBuffer!.byteLength} bytes)\n`,
+    data: `Loaded bzImage (${bzImageBuffer?.byteLength} bytes)\n`,
   })
   post({
     type: 'receivedOutput',
     port: 'console',
-    data: `Loaded rootfs (${rootfsBuffer!.byteLength} bytes)\n`,
+    data: `Loaded rootfs (${rootfsBuffer?.byteLength} bytes)\n`,
   })
 
   emulator = new V86({

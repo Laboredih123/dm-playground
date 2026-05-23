@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { lazy, Suspense } from 'react'
 
 const EditorPanel = lazy(async () => {
   const module = await import('./EditorPanel')

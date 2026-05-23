@@ -1,12 +1,12 @@
 import { Fragment, useCallback, useMemo, useRef } from 'react'
-import { Panel } from './Panel'
 import {
   Group,
+  type Layout,
   Panel as ResizablePanel,
   Separator,
-  type Layout,
 } from 'react-resizable-panels'
 import type { LayoutBranch, LayoutLeaf } from './layoutTypes'
+import { Panel } from './Panel'
 import { useLayoutContext } from './useLayoutContext'
 
 export function PanelTree({ node }: { node: LayoutBranch | LayoutLeaf }) {
@@ -64,7 +64,7 @@ function PanelTreeBranch({ node }: PanelTreeBranchProps) {
       onLayoutChanged={handleLayoutChanged}
     >
       {node.children.map((child, index) => (
-        <Fragment key={`${node.id}-${index}`}>
+        <Fragment key={child.id}>
           <ResizablePanel
             id={panelIds[index]}
             defaultSize={child.size}

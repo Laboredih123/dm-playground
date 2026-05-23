@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { monaco } from '@bithero/monaco-editor-vite-plugin'
-import packageJson from './package.json'
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { monaco } from '@bithero/monaco-editor-vite-plugin'
+import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import packageJson from './package.json'
 
 const nodeCryptoStubPath = fileURLToPath(
   new URL('./src/utils/nodeCryptoStub.ts', import.meta.url)
@@ -22,8 +22,7 @@ const getAppVersion = () => {
       encoding: 'utf8',
     }).trim()
     if (rev) return rev
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e) {
+  } catch (_e) {
     return packageJson.version
   }
 }

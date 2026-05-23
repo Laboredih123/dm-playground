@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 import {
-  MAIN_FILE_NAME,
   createDefaultProject,
-  updateProjectFile,
-  getVisibleProjectFiles,
-  type PlaygroundProject,
   type EditableProjectFileName,
+  getVisibleProjectFiles,
+  MAIN_FILE_NAME,
+  type PlaygroundProject,
+  updateProjectFile,
 } from '../editorProject/projectState'
 import { embedParams } from '../embed/embedParams'
 

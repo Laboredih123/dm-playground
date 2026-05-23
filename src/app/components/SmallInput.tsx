@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import type { InputHTMLAttributes } from 'react'
+import { forwardRef } from 'react'
 
 interface SmallInputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string

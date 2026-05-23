@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
+import useLayoutStore from '../stores/layoutStore'
 import type { LayoutRoot } from './layoutTypes'
 import { useResolvedLayoutMode } from './useResolvedLayoutMode'
-import useLayoutStore from '../stores/layoutStore'
 
 export function useLayoutManager() {
   const layouts = useLayoutStore((s) => s.layouts)

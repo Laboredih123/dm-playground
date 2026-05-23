@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   color-scheme: dark;
@@ -18,7 +18,7 @@ body {
 
 /* Ensure Monaco's context view (see: Ctrl+F) is positioned correctly */
 .dm-editor-shell .context-view.monaco-component {
-  position: fixed !important;
+  position: fixed;
   transform: translate(
     var(--dm-editor-context-offset-x, 0px),
     var(--dm-editor-context-offset-y, 0px)
@@ -38,8 +38,8 @@ body {
 .dm-editor-shell-touch .monaco-editor .lines-content,
 .dm-editor-shell-touch .monaco-editor .view-lines,
 .dm-editor-shell-touch .monaco-editor .view-line {
-  user-select: text !important;
-  -webkit-user-select: text !important;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .dm-editor-shell-touch .monaco-editor .lines-content,

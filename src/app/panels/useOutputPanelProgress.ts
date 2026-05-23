@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { emulatorService } from '../../services/EmulatorService'
 import { byondService } from '../../services/ByondService'
+import { emulatorService } from '../../services/EmulatorService'
 
 type RuntimeAsset = 'bzimage' | 'rootfs' | 'v86wasm' | 'seabios' | 'vgabios'
 

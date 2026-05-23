@@ -49,7 +49,7 @@ export function ProgressBar({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, delayMs])
+  }, [value, delayMs, show])
 
   if (!show) return null
 

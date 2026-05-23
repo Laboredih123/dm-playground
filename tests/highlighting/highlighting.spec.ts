@@ -1,7 +1,7 @@
-import { expect, test, type Page } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { expect, type Page, test } from '@playwright/test'
 
 interface HighlightingToken {
   startIndex: number
@@ -62,7 +62,7 @@ async function tokenizeFixture(
 }
 
 function findLineIndex(lines: string[], exactLine: string): number {
-  const lineIndex = lines.findIndex((line) => line === exactLine)
+  const lineIndex = lines.indexOf(exactLine)
   expect(lineIndex, `Unable to find line: ${exactLine}`).toBeGreaterThanOrEqual(
     0
   )
