@@ -1,8 +1,8 @@
 class RandomBytesBuffer {
-  private bytes: Uint8Array
+  private bytes: Uint8Array<ArrayBuffer>
 
   constructor(size: number) {
-    this.bytes = new Uint8Array(size)
+    this.bytes = new Uint8Array(new ArrayBuffer(size))
     globalThis.crypto.getRandomValues(this.bytes)
   }
 
