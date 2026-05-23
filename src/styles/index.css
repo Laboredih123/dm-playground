@@ -37,7 +37,10 @@ body {
 .dm-editor-shell-touch .monaco-editor,
 .dm-editor-shell-touch .monaco-editor .lines-content,
 .dm-editor-shell-touch .monaco-editor .view-lines,
-.dm-editor-shell-touch .monaco-editor .view-line {
+.dm-editor-shell-touch .monaco-editor .view-line,
+.dm-editor-shell-touch .monaco-editor.no-user-select .lines-content,
+.dm-editor-shell-touch .monaco-editor.no-user-select .view-lines,
+.dm-editor-shell-touch .monaco-editor.no-user-select .view-line {
   user-select: text;
   -webkit-user-select: text;
 }
