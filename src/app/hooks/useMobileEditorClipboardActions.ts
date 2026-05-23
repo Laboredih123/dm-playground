@@ -1,5 +1,6 @@
 import type * as Monaco from 'monaco-editor'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { insertPastedText } from '../monaco/pasteText'
 
 interface MobileEditorClipboardActions {
   canCopy: boolean
@@ -25,25 +26,6 @@ function getClipboardSupport() {
   }
 }
 
-function getInsertionRange(editor: Monaco.editor.IStandaloneCodeEditor) {
-  const selection = editor.getSelection()
-  if (selection) {
-    return selection
-  }
-
-  const position = editor.getPosition()
-  if (!position) {
-    return null
-  }
-
-  return {
-    startLineNumber: position.lineNumber,
-    startColumn: position.column,
-    endLineNumber: position.lineNumber,
-    endColumn: position.column,
-  }
-}
-
 function getSelectionText(editor: Monaco.editor.IStandaloneCodeEditor) {
   const model = editor.getModel()
   const selection = editor.getSelection()
@@ -55,27 +37,9 @@ function getSelectionText(editor: Monaco.editor.IStandaloneCodeEditor) {
   return model.getValueInRange(selection)
 }
 
-function collapseSelectionToOffset(
-  editor: Monaco.editor.IStandaloneCodeEditor,
-  offset: number
-) {
-  const model = editor.getModel()
-  if (!model) {
-    return
-  }
-
-  const position = model.getPositionAt(offset)
-  editor.setSelection({
-    selectionStartLineNumber: position.lineNumber,
-    selectionStartColumn: position.column,
-    positionLineNumber: position.lineNumber,
-    positionColumn: position.column,
-  })
-  editor.revealPositionInCenterIfOutsideViewport(position)
-}
-
 export function useMobileEditorClipboardActions(
-  enabled: boolean
+  enabled: boolean,
+  tabSize: number
 ): MobileEditorClipboardActions {
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null)
   const selectionListenerRef = useRef<Monaco.IDisposable | null>(null)
@@ -137,29 +101,8 @@ export function useMobileEditorClipboardActions(
       return
     }
 
-    const model = editor.getModel()
-    const range = getInsertionRange(editor)
-    if (!model || !range) {
-      return
-    }
-
-    const startOffset = model.getOffsetAt({
-      lineNumber: range.startLineNumber,
-      column: range.startColumn,
-    })
-
-    editor.pushUndoStop()
-    editor.executeEdits('mobile-clipboard', [
-      {
-        range,
-        text,
-        forceMoveMarkers: true,
-      },
-    ])
-    collapseSelectionToOffset(editor, startOffset + text.length)
-    editor.pushUndoStop()
-    editor.focus()
-  }, [enabled, pasteSupported])
+    insertPastedText(editor, text, tabSize, 'mobile-clipboard')
+  }, [enabled, pasteSupported, tabSize])
 
   useEffect(() => {
     return () => {

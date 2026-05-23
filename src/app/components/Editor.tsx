@@ -18,6 +18,7 @@ import {
   syncTouchSelectionMode,
 } from '../monaco/touchSelection'
 import { installTouchScrollHandoff } from '../monaco/touchScrollHandoff'
+import { normalizePastedText } from '../monaco/pasteText'
 import { useApplyThemeVariables } from '../hooks/useApplyThemeVariables'
 import useUIStore from '../stores/uiStore'
 import {
@@ -59,6 +60,7 @@ export function Editor({
   const monacoRef = useRef<typeof Monaco | null>(null)
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null)
   const contextViewSyncCleanupRef = useRef<(() => void) | null>(null)
+  const pasteCleanupRef = useRef<(() => void) | null>(null)
   const touchSelectionCleanupRef = useRef<(() => void) | null>(null)
   const touchScrollCleanupRef = useRef<(() => void) | null>(null)
   const [tabSize, setTabSize] = useTabSizeSetting()
@@ -85,7 +87,7 @@ export function Editor({
     copySupported,
     pasteClipboard,
     pasteSupported,
-  } = useMobileEditorClipboardActions(touchSelectionEnabled)
+  } = useMobileEditorClipboardActions(touchSelectionEnabled, tabSize)
   const activeFile = useMemo(
     () => files.find((file) => file.id === activeFileId) ?? files[0],
     [activeFileId, files]
@@ -140,6 +142,40 @@ export function Editor({
     }
   }
 
+  const installPasteNormalization = (
+    editor: Monaco.editor.IStandaloneCodeEditor,
+    currentTabSize: number
+  ) => {
+    const pasteListener = editor.onDidPaste((event) => {
+      const model = editor.getModel()
+      if (!model) {
+        return
+      }
+
+      const pastedText = model.getValueInRange(event.range)
+      if (!pastedText.includes('\t')) {
+        return
+      }
+
+      const normalizedText = normalizePastedText(pastedText, currentTabSize)
+      if (normalizedText === pastedText) {
+        return
+      }
+
+      editor.executeEdits('editor-paste-normalize', [
+        {
+          range: event.range,
+          text: normalizedText,
+          forceMoveMarkers: true,
+        },
+      ])
+    })
+
+    return () => {
+      pasteListener.dispose()
+    }
+  }
+
   const handleMount: OnMount = async (editor, monaco) => {
     monacoRef.current = monaco as typeof Monaco
     editorRef.current = editor
@@ -156,6 +192,8 @@ export function Editor({
       touchSelectionEnabled
     )
     installContextViewOffsetSync(editor)
+    pasteCleanupRef.current?.()
+    pasteCleanupRef.current = installPasteNormalization(editor, tabSize)
     ensureDmLanguage(monaco as typeof Monaco)
 
     // Disable built-in language services for JS, CSS, HTML, & JSON
@@ -228,6 +266,21 @@ export function Editor({
       return
     }
 
+    pasteCleanupRef.current?.()
+    pasteCleanupRef.current = installPasteNormalization(editor, tabSize)
+
+    return () => {
+      pasteCleanupRef.current?.()
+      pasteCleanupRef.current = null
+    }
+  }, [tabSize])
+
+  useEffect(() => {
+    const editor = editorRef.current
+    if (!editor) {
+      return
+    }
+
     syncTouchSelectionMode(editor, touchSelectionEnabled)
     bindEditor(editor)
 
@@ -255,6 +308,8 @@ export function Editor({
     return () => {
       contextViewSyncCleanupRef.current?.()
       contextViewSyncCleanupRef.current = null
+      pasteCleanupRef.current?.()
+      pasteCleanupRef.current = null
       touchSelectionCleanupRef.current?.()
       touchSelectionCleanupRef.current = null
       bindEditor(null)
