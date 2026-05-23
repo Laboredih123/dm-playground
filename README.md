@@ -90,9 +90,9 @@ pnpm run preview # Preview production build
 ### Code quality
 
 ```bash
-npm run lint   # Lint with Biome
-npm run format # Format with Biome
-npm run test   # Run playwright tests
+pnpm run lint   # Lint with Biome
+pnpm run format # Format with Biome
+pnpm run test   # Run playwright tests
 ```
 
 ## License
