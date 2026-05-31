@@ -176,16 +176,24 @@ export class ByondService {
       const response = await fetch(url)
 
       if (response.ok) {
-        await byondArchiveStorage.writeArchive(version, response, progressHandler)
+        await byondArchiveStorage.writeArchive(
+          version,
+          response,
+          progressHandler
+        )
       } else {
         const fallback_url = `${DOWNLOAD_BASE_FALLBACK_URL}/${major}/${version}_byond_linux.zip`
         const fallback_response = await fetch(fallback_url)
         if (!fallback_response.ok) {
           throw new Error(
-          `Failed to download BYOND ${version}: ${response.status}`
-        )
+            `Failed to download BYOND ${version}: ${response.status}`
+          )
         }
-        await byondArchiveStorage.writeArchive(version, fallback_response, progressHandler)
+        await byondArchiveStorage.writeArchive(
+          version,
+          fallback_response,
+          progressHandler
+        )
       }
 
       progressHandler(1)
